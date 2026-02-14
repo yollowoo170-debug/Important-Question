@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faith In Love?</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    font-family:'Inter',sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#cfcfcf;
+    background:#000;
+    position:relative;
+}
+
+/* Background gradient movement */
+body::before{
+    content:"";
+    position:fixed;
+    width:200%;
+    height:200%;
+    background:radial-gradient(circle at 30% 30%, #1a001a, #000 60%, #8a79b8 95%);
+    animation:slowShift 30s ease infinite alternate;
+    z-index:0;
+}
+
+@keyframes slowShift{
+    0%{transform:translate(0,0);}
+    100%{transform:translate(-10%,-10%);}
+}
+
+/* Fog */
+.fog{
+    position:fixed;
+    width:200%;
+    height:200%;
+    background:radial-gradient(circle, rgba(138,121,184,0.04), transparent 70%);
+    animation:fogMove 60s linear infinite;
+    z-index:0;
+}
+
+@keyframes fogMove{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+}
+
+/* Lightning */
+.flash{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:white;
+    opacity:0;
+    pointer-events:none;
+    z-index:2;
+}
+
+/* Container (NO BOX) */
+.container{
+    position:relative;
+    z-index:3;
+    max-width:850px;
+    padding:40px;
+    text-align:center;
+    transition:all 1s ease;
+}
+
+/* Heartbeat */
+@keyframes heartbeat{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.02);}
+}
+.pulse{
+    animation:heartbeat 6s ease infinite;
+}
+
+/* Morph */
+.morph-out{
+    animation:morphOut 1s forwards;
+}
+.morph-in{
+    animation:morphIn 1s forwards;
+}
+
+@keyframes morphOut{
+    0%{opacity:1;transform:scale(1);filter:blur(0);}
+    100%{opacity:0;transform:scale(1.2);filter:blur(15px);}
+}
+@keyframes morphIn{
+    0%{opacity:0;transform:scale(0.8);filter:blur(15px);}
+    100%{opacity:1;transform:scale(1);filter:blur(0);}
+}
+
+/* TITLE STYLIZED */
+h1{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:300;
+    font-size:4.2em;
+    letter-spacing:2px;
+    margin-bottom:50px;
+    color:#e6dcff;
+    text-shadow:
+        0 0 10px rgba(138,121,184,0.6),
+        0 0 25px rgba(138,121,184,0.4),
+        0 0 60px rgba(138,121,184,0.2);
+    animation:titleFloat 8s ease-in-out infinite alternate;
+}
+
+@keyframes titleFloat{
+    from{ transform:translateY(0px); }
+    to{ transform:translateY(-8px); }
+}
+
+/* RESPONSE TEXT STYLIZED */
+.message{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.35em;
+    line-height:2.2;
+    letter-spacing:1px;
+    color:#ddd6ff;
+    opacity:0;
+    transform:translateY(30px);
+    animation:fadeRise 2.5s forwards;
+    animation-delay:0.5s;
+    text-shadow:
+        0 0 8px rgba(138,121,184,0.3),
+        0 0 20px rgba(138,121,184,0.2);
+}
+
+@keyframes fadeRise{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.emphasis{
+    color:#f1eaff;
+    font-weight:600;
+    letter-spacing:2px;
+    text-shadow:
+        0 0 10px rgba(200,170,255,0.6),
+        0 0 25px rgba(200,170,255,0.4);
+}
+
+/* Buttons */
+.button-group{
+    margin-top:40px;
+}
+
+button{
+    background:rgba(20,20,40,0.6);
+    border:1px solid #6e5ca8;
+    color:#d8ccff;
+    padding:15px 45px;
+    margin:15px;
+    font-size:1em;
+    cursor:pointer;
+    border-radius:50px;
+    transition:all 0.5s ease;
+}
+
+button:hover{
+    border-color:#b9a9ff;
+    background:rgba(60,20,80,0.7);
+    transform:translateY(-6px) scale(1.1);
+    box-shadow:0 0 35px rgba(138,121,184,0.6);
+    color:#fff;
+}
+
+.hidden{
+    display:none;
+}
+
+/* Ash */
+.ash{
+    position:fixed;
+    width:3px;
+    height:3px;
+    background:rgba(255,255,255,0.25);
+    border-radius:50%;
+    pointer-events:none;
+    animation:ashFloat linear infinite;
+}
+@keyframes ashFloat{
+    from{transform:translateY(0) rotate(0deg);opacity:0.7;}
+    to{transform:translateY(-120vh) rotate(360deg);opacity:0;}
+}
+
+/* Ember */
+.ember{
+    position:fixed;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:rgba(138,121,184,0.35);
+    box-shadow:0 0 10px rgba(138,121,184,0.7);
+    pointer-events:none;
+    animation:emberFloat linear infinite;
+}
+@keyframes emberFloat{
+    from{transform:translateY(0) scale(0.5);opacity:0.8;}
+    to{transform:translateY(-150vh) scale(1.2);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="fog"></div>
+<div class="flash" id="flash"></div>
+
+<div class="container pulse" id="mainScreen">
+    <h1>Is there still faith to be found in love?</h1>
+    <div class="button-group">
+        <button onclick="choose('yes')">Yes</button>
+        <button onclick="choose('no')">No</button>
+    </div>
+</div>
+
+<div class="container hidden" id="responseScreen">
+    <div class="message" id="responseText"></div>
+</div>
+
+<script>
+
+/* Lightning */
+function lightning(){
+    const flash=document.getElementById("flash");
+    flash.style.opacity="0.7";
+    setTimeout(()=>{flash.style.opacity="0";},120);
+}
+setInterval(()=>{if(Math.random()>0.88)lightning();},4000);
+
+/* Choice */
+function choose(answer){
+    const main=document.getElementById("mainScreen");
+    const response=document.getElementById("responseScreen");
+    const text=document.getElementById("responseText");
+
+    main.classList.add("morph-out");
+
+    setTimeout(()=>{
+        main.classList.add("hidden");
+        response.classList.remove("hidden");
+        response.classList.add("morph-in");
+
+        if(answer==="yes"){
+            text.innerHTML=`
+Love was <span class="emphasis">never meant</span> for us.
+On this so-called day of love, we are destined to
+<span class="emphasis">stand alone</span>—just as we always have.
+Love does not heal; it <span class="emphasis">wounds</span>.
+It does not protect; it <span class="emphasis">scars</span>.
+Once you let yourself love, you sign up for a lifetime of
+<span class="emphasis">silent pain</span>.
+From everything life has taught me, I can say this with certainty—
+<span class="emphasis">never fall in love.</span>
+`;
+        }else{
+            text.innerHTML=`
+You've done the right thing.
+Love is nothing but an <span class="emphasis">illusion</span> people chase at their own expense.
+By refusing to believe in it, you've protected your peace and chosen
+<span class="emphasis">strength over heartbreak</span>.
+Stay far away from love...
+<span class="emphasis">don't even let it come close.</span>
+`;
+        }
+    },1000);
+}
+
+/* Ash */
+for(let i=0;i<120;i++){
+    const ash=document.createElement("div");
+    ash.className="ash";
+    ash.style.left=Math.random()*100+"vw";
+    ash.style.top=Math.random()*100+"vh";
+    ash.style.animationDuration=(Math.random()*12+8)+"s";
+    ash.style.animationDelay=Math.random()*-20+"s";
+    document.body.appendChild(ash);
+}
+
+/* Ember */
+for(let i=0;i<60;i++){
+    const ember=document.createElement("div");
+    ember.className="ember";
+    ember.style.left=Math.random()*100+"vw";
+    ember.style.top=Math.random()*100+"vh";
+    ember.style.animationDuration=(Math.random()*15+10)+"s";
+    ember.style.animationDelay=Math.random()*-25+"s";
+    document.body.appendChild(ember);
+}
+
+</script>
+</body>
+</html>
